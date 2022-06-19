@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :album do
-    title { "MyString" }
-    artist { nil }
+    title { Faker::Music.album }
+    
+    association :artist
   end
 end

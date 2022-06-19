@@ -21,7 +21,7 @@ iu_album = Album.create!(
   Song.create!(
 		artist: iu,
 		album: iu_album,
-  	title: Faker::Artist.name,
+  	title: Faker::Book.title,
   	favorite_counts: rand(1..1000)
   )
 end
@@ -41,7 +41,7 @@ end
   	Song.create!(
   		artist: artist,
   		album: album,
-	  	title: Faker::Artist.name,
+	  	title: Faker::Book.title,
 	  	favorite_counts: rand(1..1000)
 	  )
   end
