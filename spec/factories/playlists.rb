@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :playlist do
     name { "MyString" }
-    playlistable { nil }
+    association :playlistable
   end
 end

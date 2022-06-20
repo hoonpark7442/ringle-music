@@ -19,7 +19,7 @@ module Artists
       self
     end
 
-    def result?
+    def success?
       @result
     end
 
