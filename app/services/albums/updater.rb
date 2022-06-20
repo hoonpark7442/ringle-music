@@ -19,7 +19,7 @@ module Albums
       self
     end
 
-    def result?
+    def success?
       @result
     end
 

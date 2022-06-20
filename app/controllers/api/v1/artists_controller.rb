@@ -4,10 +4,10 @@ class Api::V1::ArtistsController < ApplicationController
 	def update
 		updated_result = Artists::Updater.call(@artist, artist_params)
 
-		if updated_result.result?
+		if updated_result.success?
 			render json: { artist_id: @artist.id }, status: :ok
 		else
-			render json: { error: update_result.erros_to_sentence, status: 422 }, status: :unprocessable_entity
+			render json: { error: updated_result.erros_to_sentence, status: 422 }, status: :unprocessable_entity
 		end
 	end
 
