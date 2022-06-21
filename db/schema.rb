@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_19_114058) do
+ActiveRecord::Schema.define(version: 2022_06_21_015541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,8 +78,10 @@ ActiveRecord::Schema.define(version: 2022_06_19_114058) do
     t.string "cached_album_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.tsvector "search_document"
     t.index ["album_id"], name: "index_songs_on_album_id"
     t.index ["artist_id"], name: "index_songs_on_artist_id"
+    t.index ["search_document"], name: "index_songs_on_search_document", using: :gin
   end
 
   create_table "users", force: :cascade do |t|
@@ -98,4 +100,17 @@ ActiveRecord::Schema.define(version: 2022_06_19_114058) do
   add_foreign_key "playlist_songs", "songs"
   add_foreign_key "songs", "albums"
   add_foreign_key "songs", "artists"
+  create_trigger("update_search_document", :generated => true, :compatibility => 1).
+      on("songs").
+      name("update_search_document").
+      before(:insert, :update).
+      for_each(:row) do
+    <<-SQL_ACTIONS
+NEW.search_document := 
+  setweight(to_tsvector('simple'::regconfig, coalesce(NEW.title, '')), 'A') ||
+  setweight(to_tsvector('simple'::regconfig, coalesce(NEW.cached_artist_name, '')), 'B') ||
+  setweight(to_tsvector('simple'::regconfig, coalesce(NEW.cached_album_name, '')), 'C');
+    SQL_ACTIONS
+  end
+
 end

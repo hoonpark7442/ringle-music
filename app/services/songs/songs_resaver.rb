@@ -20,7 +20,7 @@ module Songs
 
     # find_each로 메모리 부담을 덜어준다
     def resave_songs
-      @obj.songs.find_each do |song|
+      @obj.songs.includes([:album]).find_each do |song|
         song.save
       end
     end
