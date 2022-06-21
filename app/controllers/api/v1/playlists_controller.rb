@@ -52,7 +52,11 @@ class Api::V1::PlaylistsController < ApplicationController
 
   # 만약 playlistable 타입이 그룹이면 current user가 해당 그룹의 멤버인지 확인한다
   def verify_member!
-  	return if @playlistable.nil? || !@playlistable.group?
+  	return if @playlistable.nil? || !class_name.group?
   	raise PlaylistError::UnauthorizedError unless @playlistable.is_member?(current_user)
+  end
+
+  def class_name
+  	@playlistable.class_name_inquiry
   end
 end

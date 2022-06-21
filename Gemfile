@@ -25,8 +25,12 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
+# 회원가입용
 gem 'devise', '~> 4.8', '>= 4.8.1'
 gem 'devise-jwt', '~> 0.9.0'
+
+# postgres trigger
+gem 'hairtrigger', '~> 0.2.25'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

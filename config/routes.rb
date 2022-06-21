@@ -6,10 +6,14 @@ Rails.application.routes.draw do
              }
   namespace :api do
     namespace :v1 do
+      # user playlist
       post "/users/playlist", to: "playlists#create"
       post "/users/playlist/song-lists", to: "playlists#add"
       delete "/users/playlist/song-lists", to: "playlists#destroy"
 
+      # search
+      get "/search", to: "search#index"
+      
       resources :artists, only: %i[update]
       resources :groups do
         resource :playlist, only: %i[create add] do
