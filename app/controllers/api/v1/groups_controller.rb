@@ -1,10 +1,10 @@
 class Api::V1::GroupsController < ApplicationController
-	before_action :authenticate_user!, only: [:create]
+	before_action :authenticate_user!, only: [:index, :create]
 	# before_action :set_g, only: [:create, :add]
 
 	# 전체 그룹 리스트
 	def index
-
+		render json: { group_ids: current_user.groups }
 	end
 
 	# 그룹 생성
