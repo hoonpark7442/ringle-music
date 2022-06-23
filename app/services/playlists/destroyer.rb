@@ -10,7 +10,7 @@ module Playlists
     end
 
     def call
-      PlaylistSong.where(song_id: song_ids).destroy_all
+      PlaylistSong.where(playlist_id: @playlistable.playlist.id, song_id: song_ids)&.destroy_all
       true
     rescue => e
       Rails.logger.send(:fatal, "#{e}: #{e.message}\n#{e.backtrace.join("\n")}")
