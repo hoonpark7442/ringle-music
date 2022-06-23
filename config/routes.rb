@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       # user playlist
       post "/users/playlist", to: "playlists#create"
+
+      get "/users/playlist/song-lists", to: "playlists#index"
       post "/users/playlist/song-lists", to: "playlists#add"
       delete "/users/playlist/song-lists", to: "playlists#destroy"
 
@@ -17,6 +19,7 @@ Rails.application.routes.draw do
       resources :artists, only: %i[update]
       resources :groups do
         resource :playlist, only: %i[create add] do
+          get "/song-lists", to: "playlists#index"
           post "/song-lists", to: "playlists#add"
           delete "/song-lists", to: "playlists#destroy"
         end

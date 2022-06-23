@@ -8,13 +8,15 @@ RSpec.describe Playlists::Destroyer, type: :service do
   let!(:another_song) { create(:song, artist: artist, album: album) }
   let(:user_playlist) { create(:playlist, playlistable: user) }
 
-  let(:params) { [song.id, another_song.id] }
+  let!(:user_playlist_songs) do
+  	create(:playlist_song, playlist: user_playlist, song: song)
+  	create(:playlist_song, playlist: user_playlist, song: another_song)
+  end
+
   let(:remove_params) { song.id }
 
 	context "유저가 playlist에 곡 삭제시" do
 		it "유저의 playlist에 곡이 삭제된다" do
-			user_playlist
-			Playlists::Adder.call(user, params)
 			described_class.call(user, remove_params)
 
 			expect(user.playlist.song_lists.map(&:id)).to eq([another_song.id])
@@ -24,10 +26,13 @@ RSpec.describe Playlists::Destroyer, type: :service do
 	let(:group) { create(:group) }
 	let(:group_playlist) { create(:playlist, playlistable: group) }
 
+	let!(:group_playlist_songs) do
+  	create(:playlist_song, playlist: group_playlist, song: song)
+  	create(:playlist_song, playlist: group_playlist, song: another_song)
+  end
+
 	context "그룹 멤버가 playlist에 곡 삭제시" do
 		it "그룹의 playlist에 곡이 삭제된다" do
-			group_playlist
-			Playlists::Adder.call(group, params)
 	    described_class.call(group, remove_params)
 
 	    song_ids = group.playlist.song_lists.map(&:id)

@@ -1,8 +1,13 @@
 class Api::V1::PlaylistsController < ApplicationController
-	before_action :authenticate_user!, only: [:create]
-	before_action :set_playlistable, only: [:create, :add, :destroy]
+	before_action :authenticate_user!, only: [:create, :add, :destroy]
+	before_action :set_playlistable, only: [:index, :create, :add, :destroy]
 	before_action :verify_member!, only: [:add, :destroy]
 
+	def index
+		lists = @playlistable&.playlist&.song_lists
+
+		render json: { lists: lists }, status: :ok
+	end
 	# 플레이리스트 만들기
 	def create
 		playlist = Playlists::Creator.call(@playlistable, playlist_params)
