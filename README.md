@@ -43,5 +43,5 @@ https://documenter.getpostman.com/view/14873272/UzBqnQ9d
 
 그룹 관련 작업은 가입되어있는 그룹 확인이 필요합니다. 아래 url로 가입되어있는 그룹을 확인해주세요
 ```
-http://localhost:3000/api/v1/groups
+GET http://localhost:3000/api/v1/groups
 ```
